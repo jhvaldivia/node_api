@@ -26,6 +26,20 @@ mongoose.connect('mongodb://node:node@ds031257.mlab.com:31257/jaime-dev'); // co
    res.json({ message: 'Welcome to the home of our REST API.' });
  });
 
+router.route('/bears')
+  .post(function(req, res) {
+    var bear = new Bear(); //Create new bear instance.
+    bear.name = req.body.name; //Set name field from request body.
+
+    //Save bear
+    bear.save(function(err) {
+      if (err) {
+        res.send(err);
+      }
+
+      res.json({ message: 'The bear has been created!'});
+    });
+  });
 
 /*
  * Route registration
