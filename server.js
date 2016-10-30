@@ -27,6 +27,7 @@ mongoose.connect('mongodb://node:node@ds031257.mlab.com:31257/jaime-dev'); // co
  });
 
 router.route('/bears')
+  //Create a new bear route
   .post(function(req, res) {
     var bear = new Bear(); //Create new bear instance.
     bear.name = req.body.name; //Set name field from request body.
@@ -38,6 +39,48 @@ router.route('/bears')
       }
 
       res.json({ message: 'The bear has been created!'});
+    });
+  })
+
+  //Getting all the bears in db
+  .get(function(req, res) {
+    Bear.find(function(err, bears) {
+      if (err) {
+        res.send(err);
+      }
+
+      res.json(bears);
+    });
+  });
+
+router.route('/bears/:bear_id')
+  //Get bear by id
+  .get(function(req, res) {
+    Bear.findById(req.params.bear_id, function(err, bear) {
+      if (err) {
+        res.send(err);
+      }
+
+      res.json(bear);
+    })
+  })
+
+  //Update bear info
+  .put(function(req, res) {
+    Bear.findById(req.params.bear_id, function(err, bear) {
+      if (err) {
+        res.send(err);
+      }
+
+      bear.name = req.body.name;
+
+      bear.save(function(err) {
+        if (err) {
+          res.send(err);
+        }
+
+        res.json({ message: 'Bear updated!' });
+      });
     });
   });
 
