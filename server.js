@@ -16,6 +16,12 @@ mongoose.connect('mongodb://node:node@ds031257.mlab.com:31257/jaime-dev'); // co
  */
  var router = express.Router(); //Getting router instance from express.
 
+ //Middelware for all the Routes
+ router.use(function(req, res, next) {
+   console.log('An API route has been reached.');
+   next(); //Go to next route
+ });
+
  router.get('/', function(req, res) {
    res.json({ message: 'Welcome to the home of our REST API.' });
  });
